@@ -8,27 +8,27 @@ fs.readFile(("./file.json"), "utf-8", (err, data) => {
         console.log("Error fs.readFile: --> ", err)
     }
     else {
-/*         console.log("fs.readFile file.json klappt--> ", data)
- */
+        /*         console.log("fs.readFile file.json klappt--> ", data)
+         */
         // ! umformen mit JSON.parse
         const data2 = JSON.parse(data)
 
 
         // ! Öffnen der Datei   a+ damit Daten angehängt werden
-        fs.open(("./file.txt"), "a+", (err, fd)=>{
+        fs.open(("./file.txt"), "a+", (err, fd) => {
             if (err) {
                 console.log("Error fs.open: --> ", err)
             }
-            else{
-                console.log(fd )
+            else {
+                console.log(fd)
 
                 // ! forEach   und data2 auslesen
-                data2.forEach((i) =>{
+                data2.forEach((i) => {
                     const einzelnerInput = `${i.id} - ${i.title} \n ${i.description} \n`
 
 
                     // ! jetzt praktisch einzeln rein schreiben    so wie push
-                    fs.write(fd, einzelnerInput, (err) =>{
+                    fs.write(fd, einzelnerInput, (err) => {
                         if (err) {
                             console.log("Error fs.write  wie push --> ", err)
                         }
@@ -39,19 +39,19 @@ fs.readFile(("./file.json"), "utf-8", (err, data) => {
                 })
 
                 // ! schließen der Datei
-                fs.close(fd , (err) =>{
+                fs.close(fd, (err) => {
                     if (err) {
                         console.log("Error fs.close --> ", err)
                     }
-                    else{ console.log("Datei geschlossen")}
+                    else { console.log("Datei geschlossen") }
                 })
             }
         })
 
 
-        
 
-       
+
+
 
 
     }
@@ -98,3 +98,31 @@ fs.writeFile(("./file.txt"), JSON.stringify(data3), 'utf-8', (err, data) => {
         });
     }
 }) */
+
+
+// !!! jezt kommt alles der reihe nach, da es nacheinander zuerst ins txtData Array geschoben wird 
+// ! und dann erst in die file2.txt Datei
+
+
+// ! lesen JSON-Datei
+fs.readFile(("./file.json"), "utf-8", (err, data) => {
+    if (err) { console.log("Error fs.readFile -->", err) }
+    else {
+
+        // ! JSON in Objek
+        const jsonData = JSON.parse(data)
+        const txtData = []   // ! zum befüllen für später
+
+        // ! schreiben in eine Textdatei und pushen
+        jsonData.forEach((i) => {
+            const einzelneText_i = `${i.id} - ${i.title} \n ${i.description} \n \n`
+            txtData.push(einzelneText_i)
+        })
+
+        // ! file.txt  jetzt mit Array daten füllen
+        fs.writeFile(("./file2.txt"), txtData.join(""), (err) => {
+            if (err) { console.log("Error fs.writeFile --> ", err) }
+            else { console.log("file2.txt Datei erstellt") }
+        })
+    }
+})
