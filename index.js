@@ -14,7 +14,8 @@ fs.readFile(("./file.json"), "utf-8", (err, data) => {
         const data2 = JSON.parse(data)
 
 
-        // ! Öffnen der Datei   a+ damit Daten angehängt werden
+        // ! Öffnen der Datei   a+ damit Daten angehängt werden   
+        // ! fd damit open und write eindeutig über zahl so wie uuid verknüpft werden können
         fs.open(("./file.txt"), "a+", (err, fd) => {
             if (err) {
                 console.log("Error fs.open: --> ", err)
@@ -113,6 +114,7 @@ fs.readFile(("./file.json"), "utf-8", (err, data) => {
         const jsonData = JSON.parse(data)
         const txtData = []   // ! zum befüllen für später
 
+        // ! durch array mappen mit forEach = wie map in React
         // ! schreiben in eine Textdatei und pushen
         jsonData.forEach((i) => {
             const einzelneText_i = `${i.id} - ${i.title} \n ${i.description} \n \n`
